@@ -1,5 +1,11 @@
-const products = require("../database/products");
+const repository = require("../repositories/productRepository");
 
-function findAll() {
-  return products;
+function findProducts() {
+  return repository.findAll();
 }
+
+function findProductById(id) {
+  return repository.findById(id);
+}
+
+console.log(findProductById(2));

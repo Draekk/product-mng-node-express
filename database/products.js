@@ -8,3 +8,5 @@ const products = [
   { id: 6, name: "bananas", price: 45 },
   { id: 7, name: "chicken", price: 250 },
 ];
+
+module.exports.products = products;
