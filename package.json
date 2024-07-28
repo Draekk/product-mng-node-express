@@ -1,0 +1,11 @@
+{
+  "name": "test-express",
+  "version": "1.0.0",
+  "description": "Practicando routing en express",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "DraekkDev",
+  "license": "ISC"
+}
