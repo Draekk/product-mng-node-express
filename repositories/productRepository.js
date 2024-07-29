@@ -87,4 +87,20 @@ function save(product) {
   }
 }
 
-module.exports = { findAll, findById, max, save };
+/**
+ * Deletes a product from the database by its ID.
+ *
+ * @param {number} id - The unique identifier of the product to delete.
+ * @throws Will throw an error if there is a problem with the database connection or data retrieval.
+ */
+function destroyById(id) {
+  try {
+    let products = findAll();
+    let index = products.findIndex((p) => p._id === id);
+    products.splice(index, 1);
+  } catch (error) {
+    console.error(`Ha ocurrido un error: ${error}`);
+  }
+}
+
+module.exports = { findAll, findById, max, save, destroyById };
