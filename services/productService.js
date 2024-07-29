@@ -8,4 +8,14 @@ function findProductById(id) {
   return repository.findById(id);
 }
 
-console.log(findProductById(2));
+function findProductsByName(name) {
+  try {
+    return repository
+      .findAll()
+      .filter((p) => p._name.toLowerCase() === name.trim().toLowerCase());
+  } catch (error) {
+    console.error(`Ha ocurrido un error: ${error}`);
+  }
+}
+
+console.log(findProductsByName("bREAD "));
