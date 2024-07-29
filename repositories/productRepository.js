@@ -37,4 +37,54 @@ function findById(id) {
   }
 }
 
-module.exports = { findAll, findById };
+/**
+ * Retrieves the maximum ID from the products array in the database.
+ *
+ * @returns {number} The maximum ID found in the products array, or 0 if no products are found or an error occurs.
+ * @throws Will throw an error if there is a problem with the database connection or data retrieval.
+ */
+function max() {
+  try {
+    let maxId = 0;
+    jsonProducts.products.forEach((p) => {
+      if (maxId < p.id) {
+        maxId = p.id;
+      }
+    });
+    return maxId;
+  } catch (error) {
+    console.error(`Ha ocurrido un error: ${error}`);
+    return 0;
+  }
+}
+
+/**
+ * Saves a product to the database. If the product already exists, it updates the existing product.
+ * If the product does not exist, it creates a new product with a unique ID.
+ *
+ * @param {Product} product - The product object to save. The product object must have an '_id' property for updating.
+ * @returns {Product|null} The saved product object, or null if an error occurs.
+ * @throws Will throw an error if there is a problem with the database connection or data retrieval.
+ */
+function save(product) {
+  try {
+    let products = findAll();
+    if (product._id) {
+      products.forEach((p) => {
+        if (product._id === p._id) {
+          p = product;
+          return p;
+        }
+      });
+    } else {
+      product._id = max() + 1;
+      products.push(product);
+      return product;
+    }
+  } catch (error) {
+    console.error(`Ha ocurrido un error: ${error}`);
+    return null;
+  }
+}
+
+module.exports = { findAll, findById, max, save };
