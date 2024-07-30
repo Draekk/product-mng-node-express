@@ -76,6 +76,7 @@ function save(product) {
           return p;
         }
       });
+      return product;
     } else {
       product._id = max() + 1;
       products.push(product);
