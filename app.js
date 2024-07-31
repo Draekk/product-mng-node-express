@@ -11,6 +11,8 @@ const HTTP_STATUS = {
   INTERNAL_SERVER_ERROR: 500,
 };
 
+app.use(express.urlencoded({ extended: true }));
+
 app.listen(PORT, () => {
   console.log(`El servidor esta escuchando en el puerto: ${PORT}.`);
 });
@@ -51,6 +53,36 @@ app.get("/find/text", (req, res) => {
   const products = service.findProductsByNameContaining(text);
   if (products.length > 0) {
     return res.status(HTTP_STATUS.OK).send(products);
+  }
+  return res.status(HTTP_STATUS.BAD_REQUEST).send("ERROR 400 BAD REQUEST");
+});
+
+app.post("/create/product", (req, res) => {
+  const product = { name: req.body.name, price: parseInt(req.body.price) };
+  if (product.name && product.price) {
+    return res.status(HTTP_STATUS.CREATED).send(service.saveProduct(product));
+  }
+  return res.status(HTTP_STATUS.BAD_REQUEST).send("ERROR 400 BAD REQUEST");
+});
+
+app.post("/edit/product", (req, res) => {
+  const product = {
+    id: parseInt(req.body.id),
+    name: req.body.name,
+    price: parseInt(req.body.price),
+  };
+  const { id, name, price } = product;
+  if ((id, name, price)) {
+    return res.status(HTTP_STATUS.CREATED).send(service.updateProduct(product));
+  }
+  return res.status(HTTP_STATUS.BAD_REQUEST).send("ERROR 400 BAD REQUEST");
+});
+
+app.post("/delete/product", (req, res) => {
+  const id = req.body.id;
+  if (id !== null) {
+    service.deleteProduct(id);
+    return res.status(HTTP_STATUS.OK).redirect("/find/all");
   }
   return res.status(HTTP_STATUS.BAD_REQUEST).send("ERROR 400 BAD REQUEST");
 });

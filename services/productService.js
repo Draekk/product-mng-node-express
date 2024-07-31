@@ -105,13 +105,16 @@ function saveProduct({ name, price }) {
  */
 function updateProduct({ id, name, price }) {
   try {
-    if ((typeof id, price !== "number" || typeof name !== "string")) {
+    if (
+      (typeof id !== "number",
+      typeof price !== "number" || typeof name !== "string")
+    ) {
       throw new Error("Tipos de datos inválidos.");
     }
     let product = new Product();
-    product._id = productJson.id;
-    product._name = productJson.name;
-    product._price = productJson.price;
+    product._id = id;
+    product._name = name;
+    product._price = price;
 
     return repository.save(product);
   } catch (error) {
@@ -120,18 +123,12 @@ function updateProduct({ id, name, price }) {
   }
 }
 
-/**
- * Deletes a product from the repository by its unique identifier.
- *
- * @param {number} id - The unique identifier of the product to delete.
- *
- * @throws Will throw an error if the provided ID is not a valid number.
- */
 function deleteProduct(id) {
-  if (typeof id !== "number" || isNaN(id) || id <= 0) {
-    throw new Error("ID inválido");
+  try {
+    repository.destroyById(parseInt(id));
+  } catch (error) {
+    console.error(`Ha ocurrido un error: ${error}`);
   }
-  repository.destroyById(id);
 }
 
 module.exports = {

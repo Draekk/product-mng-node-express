@@ -4,6 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
+    <style>
+      .create-product {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #f2f2f2;
+        border-radius: 5px;
+      }
+
+      .edit-product {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #f2f2f2;
+        border-radius: 5px;
+      }
+
+      .delete-product {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #f2f2f2;
+        border-radius: 5px;
+      }
+    </style>
   </head>
   <body>
     <h1>Welcome</h1>
@@ -24,6 +46,27 @@
       <label for="text">Text</label>
       <input type="text" name="text" id="text" />
       <input type="submit" value="Search" />
+    </form>
+    <form class="create-product" action="/create/product" method="post">
+      <label for="name">Name</label>
+      <input type="text" name="name" id="name" />
+      <label for="price">Price</label>
+      <input type="number" name="price" id="price" />
+      <input type="submit" value="Create" />
+    </form>
+    <form action="/edit/product" method="post" class="edit-product">
+      <label for="id">ID</label>
+      <input type="number" name="id" id="id" />
+      <label for="name">Name</label>
+      <input type="text" name="name" id="name" />
+      <label for="price">Price</label>
+      <input type="number" name="price" id="price" />
+      <input type="submit" value="Edit" />
+    </form>
+    <form action="/delete/product" method="post" class="delete-product">
+      <label for="id">ID</label>
+      <input type="number" name="id" id="id" />
+      <input type="submit" value="Delete" />
     </form>
   </body>
 </html>

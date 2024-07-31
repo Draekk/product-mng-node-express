@@ -1,5 +1,8 @@
 const jsonProducts = require("../database/products");
 const Product = require("../entities/product");
+let productList = jsonProducts.products.map((p) => {
+  return new Product(p.id, p.name, p.price);
+});
 
 /**
  * Retrieves all products from the database.
@@ -8,10 +11,7 @@ const Product = require("../entities/product");
  */
 function findAll() {
   try {
-    let products = jsonProducts.products.map((p) => {
-      return new Product(p.id, p.name, p.price);
-    });
-    return products;
+    return productList;
   } catch (error) {
     console.error(`Ha ocurrido un error: ${error}`);
     return null;
@@ -27,7 +27,7 @@ function findAll() {
  */
 function findById(id) {
   try {
-    let product = jsonProducts.products.find((p) => p.id == id);
+    let product = productList.find((p) => p.id == id);
     return new Product(product.id, product.name, product.price);
   } catch (error) {
     console.error(`Ha ocurrido un error: ${error}`);
@@ -44,7 +44,7 @@ function findById(id) {
 function max() {
   try {
     let maxId = 0;
-    jsonProducts.products.forEach((p) => {
+    productList.forEach((p) => {
       if (maxId < p.id) {
         maxId = p.id;
       }
@@ -66,18 +66,16 @@ function max() {
  */
 function save(product) {
   try {
-    let products = findAll();
     if (product._id) {
-      products.forEach((p) => {
+      productList.forEach((p, i) => {
         if (product._id === p._id) {
-          p = product;
-          return p;
+          productList[i] = product;
         }
       });
       return product;
     } else {
       product._id = max() + 1;
-      products.push(product);
+      productList.push(product);
       return product;
     }
   } catch (error) {
@@ -94,9 +92,12 @@ function save(product) {
  */
 function destroyById(id) {
   try {
-    let products = findAll();
-    let index = products.findIndex((p) => p._id === id);
-    products.splice(index, 1);
+    productList.find((p, i) => {
+      if (p._id == id) {
+        productList.splice(i, 1);
+        return true;
+      }
+    });
   } catch (error) {
     console.error(`Ha ocurrido un error: ${error}`);
   }
