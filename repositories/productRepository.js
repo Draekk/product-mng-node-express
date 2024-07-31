@@ -27,9 +27,7 @@ function findAll() {
  */
 function findById(id) {
   try {
-    let product = jsonProducts.products.find((p) => {
-      return p.id === id;
-    });
+    let product = jsonProducts.products.find((p) => p.id == id);
     return new Product(product.id, product.name, product.price);
   } catch (error) {
     console.error(`Ha ocurrido un error: ${error}`);
