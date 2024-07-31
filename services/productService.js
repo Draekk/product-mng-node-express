@@ -1,6 +1,5 @@
 const repository = require("../repositories/productRepository");
 const Product = require("../entities/product");
-const path = require("path");
 
 /**
  * Retrieves all products from the repository.
@@ -65,6 +64,17 @@ function findProductsByNameContaining(text) {
   }
 }
 
+/**
+ * Saves a new product to the repository.
+ *
+ * @param {Object} productJson - The JSON object representing the product to save.
+ * @param {string} productJson.name - The name of the product.
+ * @param {number} productJson.price - The price of the product.
+ *
+ * @returns {Product|null} The saved Product object, or null if an error occurs.
+ *
+ * @throws Will throw an error if the provided productJson is not an object, if it does not contain the required properties, or if the data types are invalid.
+ */
 function saveProduct({ name, price }) {
   try {
     if (typeof name !== "string" || typeof price !== "number") {
@@ -91,7 +101,7 @@ function saveProduct({ name, price }) {
  *
  * @returns {Product|null} The updated Product object, or null if an error occurs.
  *
- * @throws Will throw an error if the provided productJson is not an object, if it does not contain the required properties, or if the ID is invalid.
+ * @throws Will throw an error if the provided productJson is not an object, if it does not contain the required properties, or if the data types are invalid.
  */
 function updateProduct({ id, name, price }) {
   try {
@@ -110,14 +120,19 @@ function updateProduct({ id, name, price }) {
   }
 }
 
+/**
+ * Deletes a product from the repository by its unique identifier.
+ *
+ * @param {number} id - The unique identifier of the product to delete.
+ *
+ * @throws Will throw an error if the provided ID is not a valid number.
+ */
 function deleteProduct(id) {
   if (typeof id !== "number" || isNaN(id) || id <= 0) {
     throw new Error("ID inválido");
   }
   repository.destroyById(id);
 }
-
-console.log(updateProduct({ id: "1", name: "something", price: 123 }));
 
 module.exports = {
   findProducts,
